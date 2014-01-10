@@ -37,7 +37,7 @@ package com.junkbyte.console {
 		public var traceFont:String = "Verdana";
 		
 		/** Font size for trace field */
-		public var traceFontSize:int = 11;
+		public var traceFontSize:int = 12;
 		
 		/** Panels background color */
 		public var backgroundColor:uint;
@@ -178,7 +178,7 @@ package com.junkbyte.console {
 		 */
 		public function updateStyleSheet():void {
 			_css.setStyle("high",{color:hesh(highColor), fontFamily:menuFont, fontSize:menuFontSize, display:'inline'});
-			_css.setStyle("low",{color:hesh(lowColor), fontFamily:menuFont, fontSize:menuFontSize-2, display:'inline'});
+			_css.setStyle("low",{color:hesh(lowColor), fontFamily:menuFont, fontSize:menuFontSize, display:'inline'});
 			_css.setStyle("menu",{color:hesh(menuColor), display:'inline'});
 			_css.setStyle("menuHi",{color:hesh(menuHighlightColor), display:'inline'});
 			_css.setStyle("chs",{color:hesh(channelsColor), fontSize:menuFontSize, leading:'2', display:'inline'});

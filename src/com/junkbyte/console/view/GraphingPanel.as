@@ -75,15 +75,15 @@ package com.junkbyte.console.view {
 			lowTxt.name = "lowestField";
 			lowTxt.defaultTextFormat = textFormat;
 			lowTxt.mouseEnabled = false;
-			lowTxt.height = style.menuFontSize+2;
+			lowTxt.height = style.menuFontSize+5;
 			addChild(lowTxt);
 			
 			highTxt = new TextField();
 			highTxt.name = "highestField";
 			highTxt.defaultTextFormat = textFormat;
 			highTxt.mouseEnabled = false;
-			highTxt.height = style.menuFontSize+2;
-			highTxt.y = style.menuFontSize-4;
+			highTxt.height = style.menuFontSize+5;
+			highTxt.y = style.menuFontSize-3;
 			addChild(highTxt);
 			//
 			txtField = makeTF("menuField");
@@ -106,7 +106,7 @@ package com.junkbyte.console.view {
 			if(_type == MEM){
 				_menuString += " <a href=\"event:gc\">G</a> ";
 			}
-			_menuString += "<a href=\"event:reset\">R</a> <a href=\"event:close\">X</a></menu></low></r>";
+			_menuString += "<a href=\"event:复位\">R</a> <a href=\"event:关闭\">X</a></menu></low></r>";
 			
 			//
 			init(W,H,true);
@@ -141,7 +141,7 @@ package com.junkbyte.console.view {
 		}*/
 		override public function set height(n:Number):void{
 			super.height = n;
-			lowTxt.y = n-style.menuFontSize;
+			lowTxt.y = n-style.menuFontSize-4;
 			_needRedraw = true;
 			
 			var g:Graphics = underlay.graphics;
@@ -259,7 +259,7 @@ package com.junkbyte.console.view {
 			var str:String = "<r><low>";
 			if(_type){
 				if(isNaN(_interest.v)){
-					str += "no input";
+					str += "沒有输入";
 				}else if(_type == FPS){
 					str += _interest.avg.toFixed(1);
 				}else{
@@ -278,9 +278,9 @@ package com.junkbyte.console.view {
 		
 		protected function linkHandler(e:TextEvent):void{
 			TextField(e.currentTarget).setSelection(0, 0);
-			if(e.text == "reset"){
+			if(e.text == "复位"){
 				reset();
-			}else if(e.text == "close"){
+			}else if(e.text == "关闭"){
 				if(_type == FPS) console.fpsMonitor = false;
 				else if(_type == MEM) console.memoryMonitor = false;
 				else stop();
@@ -293,7 +293,7 @@ package com.junkbyte.console.view {
 		protected function onMenuRollOver(e:TextEvent):void{
 			var txt:String = e.text?e.text.replace("event:",""):null;
 			if(txt == "gc"){
-				txt = "Garbage collect::Requires debugger version of flash player";
+				txt = "垃圾回收::需要debug版本的flash player";
 			}
 			console.panels.tooltip(txt, this);
 		}

@@ -86,7 +86,7 @@ package com.junkbyte.console.view {
 			addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove, false, 0, true);
 			onMouseMove();
 			if(_config.rulerHidesMouse) Mouse.hide();
-			_master.report("<b>Ruler started. Click on two locations to measure.</b>", -1);
+			_master.report("<b>开始测量. 选取两个位置结束测量.</b>", -1);
 		}
 		private function onMouseMove(e:MouseEvent = null):void{
 			_pointer.graphics.clear();
@@ -211,12 +211,12 @@ package com.junkbyte.console.view {
 				graphics.moveTo(p.x, p.y);
 				graphics.lineTo(p2.x, p2.y);
 				//
-				_master.report("Ruler results: (red) <b>["+p.x+","+p.y+"]</b> to (orange) <b>["+p2.x+","+p2.y+"]</b>", -2);
-				_master.report("Distance: <b>"+round(d,100) +"</b>", -2);
-				_master.report("Mid point: <b>["+mp.x+","+mp.y+"]</b>", -2);
-				_master.report("Width:<b>"+w+"</b>, Height: <b>"+h+"</b>", -2);
-				_master.report("Angle from first point (red): <b>"+a1+"°</b>", -2);
-				_master.report("Angle from second point (orange): <b>"+a2+"°</b>", -2);
+				_master.report("测量结果: (开始) <b>["+p.x+","+p.y+"]</b> 到 (结束) <b>["+p2.x+","+p2.y+"]</b>", -2);
+				_master.report("距离: <b>"+round(d,100) +"</b>", -2);
+				_master.report("中心点: <b>["+mp.x+","+mp.y+"]</b>", -2);
+				_master.report("宽:<b>"+w+"</b>, 高: <b>"+h+"</b>", -2);
+				_master.report("起始点角度 (红色): <b>"+a1+"°</b>", -2);
+				_master.report("结束点角度 (橙色): <b>"+a2+"°</b>", -2);
 			}else{
 				exit();
 			}

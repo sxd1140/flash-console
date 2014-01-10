@@ -72,7 +72,7 @@ package com.junkbyte.console.view
 				return;
 			}
 			if(_settingKey){
-				txtField.htmlText = "<high><menu>Press a key to set [ <a href=\"event:cancel\"><b>cancel</b></a> ]</menu></high>";
+				txtField.htmlText = "<high><menu>设置快捷键 [ <a href=\"event:cancel\"><b>取消</b></a> ]</menu></high>";
 			}else{
 				txtField.htmlText = "<low>"+getMapString(false)+"</low>";
 				txtField.autoSize = TextFieldAutoSize.LEFT;
@@ -85,12 +85,12 @@ package com.junkbyte.console.view
 			var stg:Stage = console.stage;
 			var str:String = "";
 			if(!dolink){
-				var key:String = console.rollerCaptureKey?console.rollerCaptureKey.key:"unassigned";
-				str = "<menu> <a href=\"event:close\"><b>X</b></a></menu> Capture key: <menu><a href=\"event:capture\">"+key+"</a></menu><br/>";
+				var key:String = console.rollerCaptureKey?console.rollerCaptureKey.key:"未设置";
+				str = "<menu> <a href=\"event:close\"><b>X</b></a></menu> 捕捉快捷键: <menu><a href=\"event:capture\">"+key+"</a></menu><br/>";
 			}
 			var p:Point = new Point(stg.mouseX, stg.mouseY);
 			if(stg.areInaccessibleObjectsUnderPoint(p)){
-				str += "<p9>Inaccessible objects detected</p9><br/>";
+				str += "<p9>无法访问的对象</p9><br/>";
 			}
 			var objs:Array = stg.getObjectsUnderPoint(p);
 			
@@ -146,16 +146,16 @@ package com.junkbyte.console.view
 		private function onMenuRollOver(e:TextEvent):void{
 			var txt:String = e.text?e.text.replace("event:",""):"";
 			if(txt == "close"){
-				txt = "Close";
+				txt = "关闭";
 			}else if(txt == "capture"){
 				var key:KeyBind = console.rollerCaptureKey;
 				if(key){
-					txt = "Unassign key ::"+key.key;
+					txt = "解绑快捷键 ::"+key.key;
 				}else{
-					txt = "Assign key";
+					txt = "绑定快捷键";
 				}
 			}else if(txt == "cancel"){
-				txt = "Cancel assign key";
+				txt = "取消快捷键";
 			}else{
 				txt = null;
 			}

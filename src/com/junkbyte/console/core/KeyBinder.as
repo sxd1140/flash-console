@@ -46,11 +46,11 @@ package com.junkbyte.console.core
 		public function KeyBinder(console:Console) {
 			super(console);
 			
-			console.cl.addCLCmd("keybinds", printBinds, "List all keybinds used");
+			console.cl.addCLCmd("keybinds", printBinds, "显示所有已经设置的快捷键");
 		}
 		public function bindKey(key:KeyBind, fun:Function ,args:Array = null):void{
 			if(config.keystrokePassword && (!key.useKeyCode && key.key.charAt(0) == config.keystrokePassword.charAt(0))){
-				report("Error: KeyBind ["+key.key+"] is conflicting with Console password.",9);
+				report("Error: 快捷键 ["+key.key+"] 和控制台呼出键冲突.",9);
 				return;
 			}
 			if(fun == null){
@@ -87,7 +87,7 @@ package com.junkbyte.console.core
 						}
 					}else if(_warns < 3){
 						_warns++;
-						report("Password did not trigger because you have focus on an input TextField.", 8);
+						report("你的焦点在输入框中所以呼出快捷键没有触发.", 8);
 					}
 				}
 			}
@@ -103,13 +103,13 @@ package com.junkbyte.console.core
 			}
 		}
 		private function printBinds(...args:Array):void{
-			report("Key binds:", -2);
+			report("快捷键:", -2);
 			var i:uint = 0;
 			for (var X:String in _binds){
 				i++;
 				report(X, -2);
 			}
-			report("--- Found "+i, -2);
+			report("--- 一共"+i+"个", -2);
 		}
 		private function tryRunKey(key:String):void
 		{
@@ -119,7 +119,7 @@ package com.junkbyte.console.core
 					(a[0] as Function).apply(null, a[1]);
 				}else if(_warns < 3){
 					_warns++;
-					report("Key bind ["+key+"] did not trigger because you have focus on an input TextField.", 8);
+					report("你的焦点在输入框中所以快捷键["+key+"]没有触发.", 8);
 				}
 			}
 		}

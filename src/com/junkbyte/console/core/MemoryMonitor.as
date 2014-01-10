@@ -99,7 +99,7 @@ package com.junkbyte.console.core
 					_count--;
 				}
 			}
-			if(arr.length) report("<b>GARBAGE COLLECTED "+arr.length+" item(s): </b>"+arr.join(", "),-2);
+			if(arr.length) report("<b>垃圾回收了"+arr.length+"个对象: </b>"+arr.join(", "),-2);
 		}
 		
 		public function get count():uint{
@@ -124,7 +124,7 @@ package com.junkbyte.console.core
 					}
 				}catch(e:Error){ }
 				
-				var str:String = "Manual garbage collection "+(ok?"successful.":"FAILED. You need debugger version of flash player.");
+				var str:String = "垃圾回收"+(ok?"成功.":"失败. 你需要debug版本的flash player.");
 				report(str,(ok?-1:10));
 			}
 		}

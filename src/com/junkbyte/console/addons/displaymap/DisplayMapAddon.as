@@ -90,7 +90,7 @@ package com.junkbyte.console.addons.displaymap
                 }
                 else
                 {
-                    console.error("Current scope", scope, "is not a DisplayObject.");
+                    console.error("当前对象 ", scope, " 不是DisplayObject.");
                 }
             }
             console.addSlashCommand(commandName, callbackFunction);

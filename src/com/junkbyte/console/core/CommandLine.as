@@ -1,4 +1,4 @@
-﻿/*
+/*
 * 
 * Copyright (c) 2008-2010 Lu Aye Oo
 * 
@@ -38,7 +38,7 @@ package com.junkbyte.console.core
 	 */
 	public class CommandLine extends ConsoleCore{
 		
-		private static const DISABLED:String = "<b>Advanced CommandLine is disabled.</b>\nEnable by setting `Cc.config.commandLineAllowed = true;´\nType <b>/commands</b> for permitted commands.";
+		private static const DISABLED:String = "<b>高级命令行未开启.</b>\n使用`Cc.config.commandLineAllowed = true;´开启\n输入<b>/commands</b>显示可用命令.";
 		
 		private static const RESERVED:Array = [Executer.RETURNED, "base", "C"];
 		
@@ -68,19 +68,19 @@ package com.junkbyte.console.core
 			remoter.registerCallback("cls", handleScopeString);
 			remoter.addEventListener(Event.CONNECT, sendCmdScope2Remote);
 			
-			addCLCmd("help", printHelp, "How to use command line");
-			addCLCmd("save|store", saveCmd, "Save current scope as weak reference. (same as Cc.store(...))");
-			addCLCmd("savestrong|storestrong", saveStrongCmd, "Save current scope as strong reference");
-			addCLCmd("saved|stored", savedCmd, "Show a list of all saved references");
-			addCLCmd("string", stringCmd, "Create String, useful to paste complex strings without worrying about \" or \'", false, null);
-			addCLCmd("commands", cmdsCmd, "Show a list of all slash commands", true);
-			addCLCmd("inspect", inspectCmd, "Inspect current scope");
-			addCLCmd("explode", explodeCmd, "Explode current scope to its properties and values (similar to JSON)");
-			addCLCmd("map", mapCmd, "Get display list map starting from current scope");
-			addCLCmd("function", funCmd, "Create function. param is the commandline string to create as function. (experimental)");
-			addCLCmd("autoscope", autoscopeCmd, "Toggle autoscoping.");
-			addCLCmd("base", baseCmd, "Return to base scope");
-			addCLCmd("/", prevCmd, "Return to previous scope");
+			addCLCmd("help", printHelp, "如何使用命令行");
+			addCLCmd("save|store", saveCmd, "以弱引用保存当前对象. (和Cc.store(...)一样)");
+			addCLCmd("savestrong|storestrong", saveStrongCmd, "以强引用保存当前对象");
+			addCLCmd("saved|stored", savedCmd, "显示保存的所有引用");
+			addCLCmd("string", stringCmd, "创建字符串,对使用 单引号 双引号 的复杂字符串时有用", false, null);
+			addCLCmd("commands", cmdsCmd, "显示所有命令", true);
+			addCLCmd("inspect", inspectCmd, "查看当前对象");
+			addCLCmd("explode", explodeCmd, "浏览当前对象的属性和值 (类似JSON的格式)");
+			addCLCmd("map", mapCmd, "显示当前对象下的显示列表树");
+			addCLCmd("function", funCmd, "创建函数. param is the commandline string to create as function. (实验性质)");
+			addCLCmd("autoscope", autoscopeCmd, "开启/关闭 自动查看对象.");
+			addCLCmd("base", baseCmd, "返回初始对象");
+			addCLCmd("/", prevCmd, "返回前一个对象");
 			
 		}
 		public function set base(obj:Object):void {
@@ -107,12 +107,12 @@ package com.junkbyte.console.core
 			}else{
 				var v:* = console.refs.getRefById(id);
 				if(v) console.cl.setReturned(v, true, false);
-				else console.report("Reference no longer exist.", -2);
+				else console.report("引用不存在.", -2);
 			}
 		}
 		public function store(n:String, obj:Object, strong:Boolean = false):void {
 			if(!n) {
-				report("ERROR: Give a name to save.",10);
+				report("ERROR: 请输入保存的名字.",10);
 				return;
 			}
 			// if it is a function it needs to be strong reference atm, 
@@ -180,7 +180,7 @@ package com.junkbyte.console.core
 			if(_slashCmds[n] != null){
 				var prev:SlashCommand = _slashCmds[n];
 				if(!prev.user) {
-					throw new Error("Can not alter build-in slash command ["+n+"]");
+					throw new Error("和内置命令 ["+n+"] 冲突");
 				}
 			}
 			if(callback == null) delete _slashCmds[n];
@@ -193,12 +193,12 @@ package com.junkbyte.console.core
 				if(str.charAt(0) == "~"){
 					str = str.substring(1);
 				}else if(str.search(new RegExp("\/"+localCommands.join("|\/"))) != 0){
-					report("Run command at remote: "+str,-2);
+					report("在远程执行命令: "+str,-2);
 					
 					var bytes:ByteArray = new ByteArray();
 					bytes.writeUTF(str);
 					if(!console.remoter.send("cmd", bytes)){
-						report("Command could not be sent to client.", 10);
+						report("命令不能被发送到客户端.", 10);
 					}
 					return null;
 				}
@@ -277,7 +277,7 @@ package com.junkbyte.console.core
 					reportError(err);
 				}
 			} else{
-				report("Undefined command <b>/commands</b> for list of all commands.",10);
+				report("未知命令. 输入<b>/commands</b>显示所有命令.",10);
 			}
 		}
 		public function setReturned(returned:*, changeScope:Boolean = false, say:Boolean = true):void{
@@ -296,12 +296,12 @@ package com.junkbyte.console.core
 						_scopeStr = LogReferences.ShortClassName(_scope, false);
 						sendCmdScope2Remote();
 					}
-					report("Changed to "+console.refs.makeRefTyped(returned), -1);
+					report("更改到 "+console.refs.makeRefTyped(returned), -1);
 				}else{
-					if(say) report("Returned "+console.refs.makeString(returned), -1);
+					if(say) report("返回 "+console.refs.makeString(returned), -1);
 				}
 			}else{
-				if(say) report("Exec successful, undefined return.", -1);
+				if(say) report("执行成功, 返回undefined.", -1);
 			}
 		}
 		public function sendCmdScope2Remote(e:Event = null):void{
@@ -338,7 +338,7 @@ package com.junkbyte.console.core
 			store(param, _scope, true);
 		}
 		private function savedCmd(...args:Array):void{
-			report("Saved vars: ", -1);
+			report("已保存变量: ", -1);
 			var sii:uint = 0;
 			var sii2:uint = 0;
 			for(var X:String in _saved){
@@ -347,10 +347,10 @@ package com.junkbyte.console.core
 				if(ref.reference==null) sii2++;
 				report((ref.strong?"strong":"weak")+" <b>$"+X+"</b> = "+console.refs.makeString(ref.reference), -2);
 			}
-			report("Found "+sii+" item(s), "+sii2+" empty.", -1);
+			report("找到 "+sii+" 个, 其中 "+sii2+" 个 == null.", -1);
 		}
 		private function stringCmd(param:String):void{
-			report("String with "+param.length+" chars entered. Use /save <i>(name)</i> to save.", -2);
+			report("输入了 "+param.length+" 个字符. 使用 /save <i>(name)</i> 来保存.", -2);
 			setReturned(param, true);
 		}
 		private function cmdsCmd(...args:Array):void{
@@ -363,13 +363,13 @@ package com.junkbyte.console.core
 				}
 			}
 			buildin = buildin.sortOn("n");
-			report("Built-in commands:"+(!config.commandLineAllowed?" (limited permission)":""), 4);
+			report("内置命令:"+(!config.commandLineAllowed?" (基本功能)":""), 4);
 			for each(cmd in buildin){
 				report("<b>/"+cmd.n+"</b> <p-1>" + cmd.d+"</p-1>", -2);
 			}
 			if(custom.length){
 				custom = custom.sortOn("n");
-				report("User commands:", 4);
+				report("扩展命令:", 4);
 				for each(cmd in custom){
 					report("<b>/"+cmd.n+"</b> <p-1>" + cmd.d+"</p-1>", -2);
 				}
@@ -387,12 +387,12 @@ package com.junkbyte.console.core
 		}
 		private function funCmd(param:String = ""):void{
 			var fakeFunction:FakeFunction = new FakeFunction(run, param);
-			report("Function created. Use /savestrong <i>(name)</i> to save.", -2);
+			report("函数创建成功. 使用/savestrong <i>(name)</i>来保存.", -2);
 			setReturned(fakeFunction.exec, true);
 		}
 		private function autoscopeCmd(...args:Array):void{
 			config.commandLineAutoScope = !config.commandLineAutoScope;
-			report("Auto-scoping <b>"+(config.commandLineAutoScope?"enabled":"disabled")+"</b>.",10);
+			report("自动查看对象 <b>"+(config.commandLineAutoScope?"开启":"禁用")+"</b>.",10);
 		}
 		private function baseCmd(...args:Array):void{
 			setReturned(base, true);
@@ -401,15 +401,15 @@ package com.junkbyte.console.core
 			setReturned(_prevScope.reference, true);
 		}
 		private function printHelp(...args:Array):void {
-			report("____Command Line Help___",10);
-			report("/filter (text) = filter/search logs for matching text",5);
-			report("/commands to see all slash commands",5);
-			report("Press up/down arrow keys to recall previous line",2);
-			report("__Examples:",10);
+			report("____命令行帮助____",10);
+			report("/filter (text) = 过滤控制台日志",5);
+			report("/commands 显示所有命令",5);
+			report("上下箭头键可以显示上一行",2);
+			report("______举例______",10);
 			report("<b>stage.stageWidth</b>",5);
 			report("<b>stage.scaleMode = flash.display.StageScaleMode.NO_SCALE</b>",5);
 			report("<b>stage.frameRate = 12</b>",5);
-			report("__________",10);
+			report("_______________",10);
 		}
 	}
 }

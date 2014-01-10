@@ -85,7 +85,7 @@ package com.junkbyte.console.core
 		// new XML("<t a=\"A\"><b>B</b></t>").attribute("a")
 		// new XML("<t a=\"A\"><b>B</b></t>").b
 		public function exec(s:*, str:String):*{
-			if(_running) throw new Error("CommandExec.exec() is already runnnig. Does not support loop backs.");
+			if(_running) throw new Error("CommandExec.exec()已经在执行了. 不支持回溯(loop backs).");
 			_running = true;
 			_scope = s;
 			_values = [];
@@ -125,7 +125,7 @@ package com.junkbyte.console.core
 			//
 			// All strings will have replaced by #0, #1, etc
 			if(str.search(new RegExp('\'|\"'))>=0){
-				throw new Error('Bad syntax extra quotation marks');
+				throw new Error('非法格式 引号問題');
 			}
 			//
 			// Run each line
@@ -359,7 +359,7 @@ package com.junkbyte.console.core
 							// Will throw below...
 						}
 						if(!(newbase is Function)){
-							throw new Error(basestr+" is not a function.");
+							throw new Error(basestr+"不是函数.");
 						}
 					}
 					//trace("Apply function:", newbase, v.base, params);
@@ -525,7 +525,7 @@ package com.junkbyte.console.core
 				}else if(len==10){
 					return new (def)(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9]);
 				}else {
-					throw new Error("CommandLine can't create new class instances with more than 10 arguments.");
+					throw new Error("命令行不能构造超过10个参数的类.");
 				}
 				// won't work with more than 10 arguments...
 			}

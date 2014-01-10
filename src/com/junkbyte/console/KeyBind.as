@@ -42,7 +42,7 @@ package com.junkbyte.console
 			if(v is uint){
 				_code = true;
 			}else if(!v || _key.length != 1) {
-				throw new Error("KeyBind: character (first char) must be a single character. You gave ["+v+"]");
+				throw new Error("快捷键: 必须是单个键,你按的是["+v+"]");
 			}
 			
 			if(_code) _key = "keycode:"+_key;

@@ -324,6 +324,9 @@ package com.junkbyte.console {
 		public function get style():ConsoleStyle{
 			return _style;
 		}
+
+		public var initWidth:int = 640;
+		public var initHeight:int = 300;
 		
 		/////////////////////
 		//                 //

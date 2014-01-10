@@ -43,7 +43,7 @@ package com.junkbyte.console.core
 		}
 		public function map(base:DisplayObjectContainer, maxstep:uint = 0, ch:String = null):void{
 			if(!base){
-				report("Not a DisplayObjectContainer.", 10, true, ch);
+				report("不是一个DisplayObjectContainer.", 10, true, ch);
 				return;
 			}
 			
@@ -106,8 +106,8 @@ package com.junkbyte.console.core
 				}
 				lastmcDO = mcDO;
 			}
-			report(base.name + ":" + console.refs.makeRefTyped(base) + " has " + (list.length - 1) + " children/sub-children.", 9, true, ch);
-			if (config.commandLineAllowed) report("Click on the child display's name to set scope.", -2, true, ch);
+			report(base.name + ":" + console.refs.makeRefTyped(base) + " 有 " + (list.length - 1) + " 个子对象(递归所有子对象)", 9, true, ch);
+			if (config.commandLineAllowed) report("点击显示对象的名字来更改当前对象.", -2, true, ch);
 		}
 		
 		

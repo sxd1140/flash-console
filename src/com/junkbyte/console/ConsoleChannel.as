@@ -165,7 +165,7 @@ package com.junkbyte.console {
 		}
 		
 		public function toString():String{
-			return "[ConsoleChannel "+name+"]";
+			return "[控制台频道 "+name+"]";
 		}
 	}
 }

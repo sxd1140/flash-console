@@ -102,9 +102,9 @@ package com.junkbyte.console.view
 			//_viewingChannels = new Array();
 			//_ignoredChannels = new Array();
 			
-			console.cl.addCLCmd("filter", setFilterText, "Filter console logs to matching string. When done, click on the * (global channel) at top.", true);
-			console.cl.addCLCmd("filterexp", setFilterRegExp, "Filter console logs to matching regular expression", true);
-			console.cl.addCLCmd("clearhistory", clearCommandLineHistory, "Clear history of commands you have entered.", true);
+			console.cl.addCLCmd("filter", setFilterText, "过滤控制台日志. 点击上方的 * (所有频道)返回.", true);
+			console.cl.addCLCmd("filterexp", setFilterRegExp, "使用正则过滤控制台日志", true);
+			console.cl.addCLCmd("clearhistory", clearCommandLineHistory, "清除你输入过的历史命令.", true);
 			
 			name = NAME;
 			minWidth = 50;
@@ -195,7 +195,7 @@ package com.junkbyte.console.view
 			_cmdBG.visible = false;
 			updateCLScope("");
 			//
-			init(640,100,true);
+			init(config.initWidth,config.initHeight,true);
 			registerDragger(txtField);
 			//
 			if(console.so[CL_HISTORY] is Array){
@@ -239,7 +239,7 @@ package com.junkbyte.console.view
 					_extraMenus[key] = new Array(f, args, rollover);
 				}
 				_needUpdateMenu = true;
-			}else console.report("ERROR: Invalid add menu params.", 9);
+			}else console.report("ERROR: 添加菜单时有非法参数.", 9);
 		}
 		private function stageAddedHandle(e:Event=null):void{
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, onStageMouseDown, true, 0, true);
@@ -269,7 +269,7 @@ package com.junkbyte.console.view
 			}
 		}
 		private function onCmdPrefRollOverOut(e : MouseEvent) : void {
-			console.panels.tooltip(e.type==MouseEvent.MOUSE_MOVE?"Current scope::(CommandLine)":"", this);
+			console.panels.tooltip(e.type==MouseEvent.MOUSE_MOVE?"当前对象::(命令行)":"", this);
 		}
 		private function onCmdPrefMouseDown(e : MouseEvent) : void {
 			try{
@@ -310,7 +310,7 @@ package com.junkbyte.console.view
 			if(on){
 				console.commandLine = true;
 				console.report("//", -2);
-				console.report("// <b>Enter remoting password</b> in CommandLine below...", -2);
+				console.report("// 在命令行下面<b>输入远程密码</b>", -2);
 				updateCLScope("Password");
 				ct.color = style.controlColor;
 				_cmdBG.transform.colorTransform = ct;
@@ -789,22 +789,22 @@ package com.junkbyte.console.view
 				}
 				if(extra) str += "¦ ";
 				
-				str += doActive("<a href=\"event:fps\">F</a>", console.fpsMonitor>0);
-				str += doActive(" <a href=\"event:mm\">M</a>", console.memoryMonitor>0);
+				str += doActive("<a href=\"event:fps\">帧</a>", console.fpsMonitor>0);
+				str += doActive(" <a href=\"event:mm\">占</a>", console.memoryMonitor>0);
 				
-				str += doActive(" <a href=\"event:command\">CL</a>", commandLine);
+				str += doActive(" <a href=\"event:command\">命</a>", commandLine);
 				
 				if(console.remoter.remoting != Remoting.RECIEVER){
 					if(config.displayRollerEnabled)
-					str += doActive(" <a href=\"event:roller\">Ro</a>", console.displayRoller);
+					str += doActive(" <a href=\"event:roller\">树</a>", console.displayRoller);
 					if(config.rulerToolEnabled)
-					str += doActive(" <a href=\"event:ruler\">RL</a>", console.panels.rulerActive);
+					str += doActive(" <a href=\"event:ruler\">尺</a>", console.panels.rulerActive);
 				}
 				str += " ¦</b>";
-				str += " <a href=\"event:copy\">Sv</a>";
-				str += " <a href=\"event:priority\">P"+_priority+"</a>";
-				str += doActive(" <a href=\"event:pause\">P</a>", console.paused);
-				str += " <a href=\"event:clear\">C</a> <a href=\"event:close\">X</a> <a href=\"event:hide\">›</a>";
+				str += " <a href=\"event:copy\">存</a>";
+				str += " <a href=\"event:priority\">级"+_priority+"</a>";
+				str += doActive(" <a href=\"event:pause\">停</a>", console.paused);
+				str += " <a href=\"event:clear\">清</a> <a href=\"event:close\">X</a> <a href=\"event:hide\">›</a>";
 			}
 			str += " </b></menu></high></r>";
 			txtField.htmlText = str;
@@ -842,38 +842,38 @@ package com.junkbyte.console.view
 			if(src==null) src = this;
 			var txt:String = e.text?e.text.replace("event:",""):"";
 			if(txt == "channel_"+Console.GLOBAL_CHANNEL){
-				txt = "View all channels";
+				txt = "显示所有频道";
 			}else if(txt == "channel_"+Console.DEFAULT_CHANNEL) {
-				txt = "Default channel::Logs with no channel";
+				txt = "默认频道::未指定频道的日志";
 			}else if(txt == "channel_"+ Console.CONSOLE_CHANNEL) {
-				txt = "Console's channel::Logs generated from Console";
+				txt = "控制台频道::控制台生成的日志";
 			}else if(txt == "channel_"+ Console.FILTER_CHANNEL) {
 				txt = _filterRegExp?String(_filterRegExp):_filterText;
-				txt = "Filtering channel"+"::*"+txt+"*";
+				txt = "过滤频道"+"::*"+txt+"*";
 			}else if(txt == "channel_"+LogReferences.INSPECTING_CHANNEL) {
-				txt = "Inspecting channel";
+				txt = "当前审查对象的频道";
 			}else if(txt.indexOf("channel_")==0) {
-				txt = "Change channel::shift: select multiple\nctrl: ignore channel";
+				txt = "更改频道::shift: 选择多个\nctrl: 忽略频道";
 			}else if(txt == "pause"){
-				if(console.paused) txt = "Resume updates";
-				else txt = "Pause updates";
+				if(console.paused) txt = "恢复刷新";
+				else txt = "暂停刷新";
 			}else if(txt == "close" && src == this){
-				txt = "Close::Type password to show again";
+				txt = "关闭::按下快捷键再次打开";
 			}else if(txt.indexOf("external_")==0){
 				var menu:Array = _extraMenus[txt.substring(9)];
 				if(menu) txt = menu[2];
 			}else{
 				var obj:Object = {
-					fps:"Frames Per Second",
-					mm:"Memory Monitor",
-					roller:"Display Roller::Map the display list under your mouse",
-					ruler:"Screen Ruler::Measure the distance and angle between two points on screen.",
-					command:"Command Line",
-					copy:"Save to clipboard::shift: no channel name\nctrl: use viewing filters\nalt: save to file",
-					clear:"Clear log",
-					priority:"Priority filter::shift: previous priority\n(skips unused priorites)",
-					channels:"Expand channels",
-					close:"Close"
+					fps:"显示FPS",
+					mm:"内存监视器",
+					roller:"显示对象观察器::显示鼠标下的对象列表.",
+					ruler:"屏幕尺::测量屏幕上2个点之间的距离和角度.",
+					command:"命令行",
+					copy:"复制到剪贴板::shift: 不复制频道名\nctrl: 使用当前显示的过滤器\nalt: 保存到文件",
+					clear:"清除log",
+					priority:"优先级过滤::shift: 上一个优先级\n(会跳过未使用的优先级)",
+					channels:"弹出频道面板",
+					close:"关闭"
 				};
 				txt = obj[txt];
 			}
@@ -928,7 +928,7 @@ package com.junkbyte.console.view
 					try{
 						file["save"](str,"log.txt");
 					}catch(err:Error) {
-						console.report("Save to file is not supported in your flash player.", 8);
+						console.report("当前的flash player不支持保存到文件.", 8);
 					}
 				}else{
 					System.setClipboard(str);
@@ -937,7 +937,7 @@ package com.junkbyte.console.view
 			}else if(t == "clear"){
 				console.clear();
 			}else if(t == "settings"){
-				console.report("A new window should open in browser. If not, try searching for 'Flash Player Global Security Settings panel' online :)", -1);
+				console.report("浏览器里应该打开了个新窗口. 要是没有的话,google一下 Flash Player 全局安全设置面板. :)", -1);
 				Security.showSettings(SecurityPanel.SETTINGS_MANAGER);
 			}else if(t == "remote"){
 				console.remoter.remoting = Remoting.RECIEVER;

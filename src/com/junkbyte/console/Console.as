@@ -119,7 +119,7 @@ package com.junkbyte.console
 			cl.addCLCmd("remotingSocket", function(str:String = ""):void{
 				var args:Array = str.split(/\s+|\:/);
 				remotingSocket(args[0], args[1]);
-			}, "Connect to socket remote. /remotingSocket ip port");
+			}, "连接到远程Socket. /remotingSocket ip port");
 			
 			if(_config.sharedObjectName){
 				try{
@@ -356,8 +356,8 @@ package com.junkbyte.console
 		}
 		public function set paused(newV:Boolean):void{
 			if(_paused == newV) return;
-			if(newV) report("Paused", 10);
-			else report("Resumed", -1);
+			if(newV) report("已暂停", 10);
+			else report("已恢复", -1);
 			_paused = newV;
 			_panels.mainPanel.setPaused(newV);
 		}

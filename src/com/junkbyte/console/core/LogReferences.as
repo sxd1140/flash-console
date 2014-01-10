@@ -278,23 +278,23 @@ package com.junkbyte.console.core
 			}
 			var refIndex:uint = setLogRef(obj);
 			var showInherit:String = "";
-			if(!viewAll) showInherit = " [<a href='event:refi'>show inherited</a>]";
+			if(!viewAll) showInherit = " [<a href='event:refi'>显示继承</a>]";
 			var menuStr:String;
 			if(_history){
-				menuStr = "<b>[<a href='event:refexit'>exit</a>]";
+				menuStr = "<b>[<a href='event:refexit'>退出</a>]";
 				if(_hisIndex>1){
-					menuStr += " [<a href='event:refprev'>previous</a>]";
+					menuStr += " [<a href='event:refprev'>前一个</a>]";
 				}
 				if(_history && _hisIndex < _history.length){
-					menuStr += " [<a href='event:reffwd'>forward</a>]";
+					menuStr += " [<a href='event:reffwd'>后一个</a>]";
 				}
-				menuStr += "</b> || [<a href='event:ref_"+refIndex+"'>refresh</a>]";
-				menuStr += "</b> [<a href='event:refe_"+refIndex+"'>explode</a>]";
+				menuStr += "</b> || [<a href='event:ref_"+refIndex+"'>刷新</a>]";
+				menuStr += "</b> [<a href='event:refe_"+refIndex+"'>展开</a>]";
 				if(config.commandLineAllowed){
-					menuStr += " [<a href='event:cl_"+refIndex+"'>scope</a>]";
+					menuStr += " [<a href='event:cl_"+refIndex+"'>查看对象</a>]";
 				}
 				
-				if(viewAll) menuStr += " [<a href='event:refi'>hide inherited</a>]";
+				if(viewAll) menuStr += " [<a href='event:refi'>隐藏继承</a>]";
 				else menuStr += showInherit;
 				report(menuStr, -1, true, ch);
 				report("", 1, true, ch);
@@ -342,7 +342,7 @@ package com.junkbyte.console.core
 					props.push(st.indexOf("*")<0?makeValue(getDefinitionByName(st)):EscHTML(st));
 					if(!viewAll) break;
 				}
-				report("<p10>Extends:</p10> "+props.join(" &gt; "), 1, true, ch);
+				report("<p10>父类:</p10> "+props.join(" &gt; "), 1, true, ch);
 			}
 			//
 			// implements...
@@ -353,7 +353,7 @@ package com.junkbyte.console.core
 				for each (var implementX:XML in nodes) {
 					props.push(makeValue(getDefinitionByName(implementX.@type.toString())));
 				}
-				report("<p10>Implements:</p10> "+props.join(", "), 1, true, ch);
+				report("<p10>接口:</p10> "+props.join(", "), 1, true, ch);
 			}
 			report("", 1, true, ch);
 			//
@@ -369,7 +369,7 @@ package com.junkbyte.console.core
 					if(refIndex) props.push("<a href='event:cl_"+refIndex+"_dispatchEvent(new "+et+"(\""+en+"\"))'>"+en+"</a><p0>("+et+")</p0>");
 					else props.push(en+"<p0>("+et+")</p0>");
 				}
-				report("<p10>Events:</p10> "+props.join("<p-1>; </p-1>"), 1, true, ch);
+				report("<p10>事件:</p10> "+props.join("<p-1>; </p-1>"), 1, true, ch);
 				report("", 1, true, ch);
 			}
 			//
@@ -386,7 +386,7 @@ package com.junkbyte.console.core
 						var indstr:String = theParent?"@"+theParent.getChildIndex(pr):"";
 						props.push("<b>"+pr.name+"</b>"+indstr+makeValue(pr));
 					}
-					report("<p10>Parents:</p10> "+props.join("<p-1> -> </p-1>")+"<br/>", 1, true, ch);
+					report("<p10>父对象:</p10> "+props.join("<p-1> -> </p-1>")+"<br/>", 1, true, ch);
 				}
 			}
 			if (obj is DisplayObjectContainer) {
@@ -398,7 +398,7 @@ package com.junkbyte.console.core
 					props.push("<b>"+child.name+"</b>@"+ci+makeValue(child));
 				}
 				if(clen){
-					report("<p10>Children:</p10> "+props.join("<p-1>; </p-1>")+"<br/>", 1, true, ch);
+					report("<p10>子对象:</p10> "+props.join("<p-1>; </p-1>")+"<br/>", 1, true, ch);
 				}
 			}
 			//
@@ -442,7 +442,7 @@ package com.junkbyte.console.core
 				}
 			}
 			if(inherit){
-				report("   \t + "+inherit+" inherited methods."+showInherit, 1, true, ch);
+				report("   \t + "+inherit+" 个继承的方法."+showInherit, 1, true, ch);
 			}else if(hasstuff){
 				report("", 1, true, ch);
 			}
@@ -458,11 +458,11 @@ package com.junkbyte.console.core
 					hasstuff = true;
 					isstatic = accessorX.parent().name()!="factory";
 					str = " ";
-					if(isstatic) str += "static ";
+					if(isstatic) str += "静态 ";
 					var access:String = accessorX.@access;
-					if(access == "readonly") str+= "get";
-					else if(access == "writeonly") str+= "set";
-					else str += "assign";
+					if(access == "readonly") str+= "只读";
+					else if(access == "writeonly") str+= "只写";
+					else str += "读写";
 					
 					if(refIndex && (isstatic || !isClass)){
 						str += " <a href='event:cl_"+refIndex+"_"+accessorX.@name+"'><p3>"+accessorX.@name+"</p3></a>:"+accessorX.@type;
@@ -479,7 +479,7 @@ package com.junkbyte.console.core
 				}
 			}
 			if(inherit){
-				report("   \t + "+inherit+" inherited accessors."+showInherit, 1, true, ch);
+				report("   \t + "+inherit+" 个继承的属性."+showInherit, 1, true, ch);
 			}else if(hasstuff){
 				report("", 1, true, ch);
 			}
@@ -510,7 +510,7 @@ package com.junkbyte.console.core
 					}
 				}
 			} catch(e : Error) {
-				report("Could not get dynamic values. " + e.message, 9, false, ch);
+				report("不能获取动态值. " + e.message, 9, false, ch);
 			}
 			if(obj is String){
 				report("", 1, true, ch);
